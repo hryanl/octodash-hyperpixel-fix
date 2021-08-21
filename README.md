@@ -7,18 +7,20 @@ https://kevenaar.name/octopi-with-octodash-on-rpi-4-with-hyperpixel-4-0/#HyperPi
 Follow general instructions from that site and here. Ignore the kernel stuff.
 
 If Raspbian/OctoPi still have not been updated to bullseye then run the following before anything
-
+```
 sudo apt-get --allow-releaseinfo-change update
 
-sudo apt install arandr i2c-tools xinput
- 
+sudo apt install arandr i2c-tools xinput>
+``` 
 However instead of automatic driver install from Pimoroni, do the following: (This is the latest, the script calls the stale branch fix pi4-i2c-fix)
 
-Git clone https://github.com/pimoroni/hyperpixel4 -b pi4-i2c-fix-xorg-rotate
+```
+git clone https://github.com/pimoroni/hyperpixel4 -b pi4-i2c-fix-xorg-rotate
+```
 
+My boot/config.txt from [pi4] and below (might need cleaning up, but things work fine)
 
-My boot/config.txt (might need cleaning up, but things work fine)
-
+```
 [pi4]
 #Enable DRM VC4 V3D driver on top of the dispmanx display stack
 #dtoverlay=vc4-fkms-v3d
@@ -40,6 +42,7 @@ dpi_mode=87
 dpi_output_format=0x7f216
 dpi_timings=480 0 10 16 59 800 0 15 113 15 0 0 0 60 0 32000000 6
 display_rotate=1
+```
 
 Follow instructions here
 https://github.com/pimoroni/hyperpixel4/commit/cf175ccc
