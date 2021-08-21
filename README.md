@@ -1,3 +1,56 @@
+# Updated Instructions focused on HyperPixel4 Rectangular Touch and OctoPi with OctoDash on RPi 4B 4GB
+I got things working. Quick dump until I can clean this up properly. Ignore the kernel stuff.
+
+Kicked off with this site:
+https://kevenaar.name/octopi-with-octodash-on-rpi-4-with-hyperpixel-4-0/#HyperPixel_40_orientation
+
+Follow general instructions from that site and here. Ignore the kernel stuff.
+
+If Raspbian/OctoPi still have not been updated to bullseye then run the following before anything
+
+sudo apt-get --allow-releaseinfo-change update
+
+sudo apt install arandr i2c-tools xinput
+ 
+However instead of automatic driver install from Pimoroni, do the following: (This is the latest, the script calls the stale branch fix pi4-i2c-fix)
+
+Git clone https://github.com/pimoroni/hyperpixel4 -b pi4-i2c-fix-xorg-rotate
+
+
+My boot/config.txt (might need cleaning up, but things work fine)
+
+[pi4]
+#Enable DRM VC4 V3D driver on top of the dispmanx display stack
+#dtoverlay=vc4-fkms-v3d
+#display_lcd_rotate=1
+max_framebuffers=2
+
+[all]
+#dtoverlay=vc4-fkms-v3d
+#enable raspicam
+start_x=1
+gpu_mem=128
+
+dtoverlay=hyperpixel4-common:rotate,touchscreen-swapped-x-y
+dtoverlay=hyperpixel4-0x14
+dtoverlay=hyperpixel4-0x5d
+enable_dpi_lcd=1
+dpi_group=2
+dpi_mode=87
+dpi_output_format=0x7f216
+dpi_timings=480 0 10 16 59 800 0 15 113 15 0 0 0 60 0 32000000 6
+display_rotate=1
+
+Follow instructions here
+https://github.com/pimoroni/hyperpixel4/commit/cf175ccc
+Ignore dtoverlay
+
+If on the fly instructions say DSI-1 doesn’t exist, ignore. 
+
+All should be working. Hope I didn't forget anything.
+
+
+# ORIGINAL INSTRUCTIONS
 # HyperPixel 4.0 on Raspberry Pi 4B
 Getting the Pimoroni HyperPixel 4.0 setup correctly and operational on a Raspberry Pi 4B turned out to be a voyage of discovery. I have captured the results here for myself and others. I have included my working config.txt (Raspian Buster) in the repo. This is specifically for the Pi 4B versions. Pi3 and earlier do not have these issues. It is highly recommended that you make a backup of your Octoprint configuration. This can be done from the web UI by going to settings, and clicking on **Backup & Restore**. Click on the **Create backup now** button and wait for completion. Copy the file from ~pi/.octoprint/data/backup/<backupfilename>.zip using your favorite transfer program. Try [WinSCP](https://winscp.net/) if you don't have something already installed. Mac and Linux folks have sftp at their disposal.
    
